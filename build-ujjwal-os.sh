@@ -91,7 +91,6 @@ amd-ucode
 mesa
 vulkan-radeon
 xf86-video-amdgpu
-mesa-vdpau
 pipewire
 pipewire-alsa
 pipewire-pulse
