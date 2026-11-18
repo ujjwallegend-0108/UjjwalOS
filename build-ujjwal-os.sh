@@ -154,6 +154,7 @@ bat
 fastfetch
 calamares
 grub
+syslinux
 efibootmgr
 os-prober
 snapper
