@@ -139,12 +139,8 @@ firefox
 ttf-jetbrains-mono-nerd
 noto-fonts
 noto-fonts-emoji
-paru
-yay
-rate-mirrors
 zram-generator
 ananicy-cpp
-cachyos-ananicy-rules-git
 irqbalance
 fish
 starship
@@ -157,7 +153,6 @@ syslinux
 efibootmgr
 os-prober
 snapper
-auto-cpufreq
 EOF
 
 cat <<'EOF' > "${WORKDIR}/pacman.conf"
@@ -181,8 +176,6 @@ Include = /etc/pacman.d/mirrorlist
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 
-[chaotic-aur]
-Include = /etc/pacman.d/chaotic-mirrorlist
 EOF
 cp "${WORKDIR}/pacman.conf" "${WORKDIR}/airootfs/etc/pacman.conf"
 
@@ -497,6 +490,22 @@ for svc in NetworkManager bluetooth auto-cpufreq ananicy-cpp irqbalance cups; do
   ln -sf "/usr/lib/systemd/system/${svc}.service" "${WORKDIR}/airootfs/etc/systemd/system/multi-user.target.wants/"
 done
 ln -sf /usr/lib/systemd/system/sddm.service "${WORKDIR}/airootfs/etc/systemd/system/display-manager.service"
+mkdir -p /tmp/chaotic-local
+pacman -Sw --noconfirm --cachedir /tmp/chaotic-local paru yay rate-mirrors cachyos-ananicy-rules-git auto-cpufreq
+repo-add /tmp/chaotic-local/chaotic-local.db.tar.gz /tmp/chaotic-local/*.pkg.tar.zst
+cat <<'EOF' >> "${WORKDIR}/pacman.conf"
+
+[chaotic-local]
+SigLevel = Optional TrustAll
+Server = file:///tmp/chaotic-local
+EOF
+cat <<'EOF' >> "${WORKDIR}/packages.x86_64"
+paru
+yay
+rate-mirrors
+cachyos-ananicy-rules-git
+auto-cpufreq
+EOF
 
 echo "Starting mkarchiso for Ujjwal OS (AMD Edition)..."
 mkarchiso -v -w /tmp/ujjwal-archiso-work -o "${OUTDIR}" "${WORKDIR}"
