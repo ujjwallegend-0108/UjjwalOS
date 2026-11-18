@@ -6,7 +6,7 @@ set -euo pipefail
 pacman-key --init
 pacman-key --populate archlinux
 sed -i 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf
-CA_BASE="https://""cdn-mirror.chaotic.cx/chaotic-aur"
+CA_BASE="https://""builds.garudalinux.org/repos/chaotic-aur/x86_64"
 pacman -U --noconfirm "${CA_BASE}/chaotic-keyring.pkg.tar.zst"
 pacman -U --noconfirm "${CA_BASE}/chaotic-mirrorlist.pkg.tar.zst"
 sed -i 's/^SigLevel = Never/SigLevel = Required DatabaseOptional/' /etc/pacman.conf
