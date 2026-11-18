@@ -1,0 +1,37 @@
+name: Compile Ujjwal OS Studio Script
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+      options: --privileged
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Archiso & Build Tools
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          pacman -Syu --noconfirm --needed archiso git squashfs-tools libisoburn dosfstools mtools grub efibootmgr sudo
+
+      - name: Run build-ujjwal-os.sh
+        run: |
+          chmod +x build-ujjwal-os.sh
+          ./build-ujjwal-os.sh
+
+      - name: Upload Finished ISO to Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: studio-v1.${{ github.run_number }}
+          name: Ujjwal OS Studio Build ${{ github.run_number }}
+          files: |
+            **/*.iso
