@@ -28,10 +28,8 @@ jobs:
           chmod +x build-ujjwal-os.sh
           ./build-ujjwal-os.sh
 
-      - name: Upload Finished ISO to Releases
-        uses: softprops/action-gh-release@v2
+      - name: Upload Finished ISO to Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: studio-v1.${{ github.run_number }}
-          name: Ujjwal OS Studio Build ${{ github.run_number }}
-          files: |
-            **/*.iso
+          name: Ujjwal-OS-AMD-ISO
+          path: out/*.iso
