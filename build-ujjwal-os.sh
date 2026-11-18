@@ -91,7 +91,6 @@ amd-ucode
 mesa
 vulkan-radeon
 xf86-video-amdgpu
-libva-mesa-driver
 mesa-vdpau
 pipewire
 pipewire-alsa
@@ -152,7 +151,7 @@ starship
 eza
 bat
 fastfetch
-calamares
+archinstall
 grub
 syslinux
 efibootmgr
